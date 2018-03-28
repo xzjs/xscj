@@ -14,7 +14,17 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        $result['status'] = true;
+        try {
+            $result['data'] = Teacher::all();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
@@ -30,19 +40,18 @@ class TeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $result = array();
+        $result['status'] = true;
         try {
-            $teacher=new Teacher();
-            $teacher->name=$request->name;
-            $teacher->pwd=md5('teacher');
+            $teacher = new Teacher();
+            $teacher->name = $request->name;
+            $teacher->pwd = md5('teacher');
             $teacher->save();
-            $result['status']=true;
-            $result['id']=$teacher->id;
+            $result['id'] = $teacher->id;
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
@@ -56,7 +65,7 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -67,7 +76,7 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -78,8 +87,8 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -90,7 +99,7 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

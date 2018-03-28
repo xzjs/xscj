@@ -14,7 +14,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $result['status'] = true;
+        try {
+            $result['data'] = Student::all();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
