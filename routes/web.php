@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('admins', 'AdminController');
+Route::resource('login', 'LoginController');
