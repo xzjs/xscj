@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
+use App\Student;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,24 +37,12 @@ class LoginController extends Controller
     {
         $result = array();
         try {
-            $object = null;
-            switch ($request['type']) {
-                case "student":
-                    break;
-                case "teacher":
-                    break;
-                case "admin":
-                    $object = Admin::findOrFail($request['id']);
-                    break;
-                default:
-                    $result['status'] = false;
-                    $result['message'] = "登录类型错误";
-            }
-            if ($object->pwd == md5($request['pwd'])) {
-                $result['status'] = true;
-                $result['id'] = $object->id;
-            }
-
+            $student=new Student;
+            $student->name=$request->name;
+            $student->pwd=md5('student');
+            $student->save();
+            $result['status']=true;
+            $result['id']=$student->id;
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,

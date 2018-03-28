@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
+use App\Teacher;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class TeacherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,31 +30,19 @@ class LoginController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $result = array();
         try {
-            $object = null;
-            switch ($request['type']) {
-                case "student":
-                    break;
-                case "teacher":
-                    break;
-                case "admin":
-                    $object = Admin::findOrFail($request['id']);
-                    break;
-                default:
-                    $result['status'] = false;
-                    $result['message'] = "登录类型错误";
-            }
-            if ($object->pwd == md5($request['pwd'])) {
-                $result['status'] = true;
-                $result['id'] = $object->id;
-            }
-
+            $teacher=new Teacher();
+            $teacher->name=$request->name;
+            $teacher->pwd=md5('teacher');
+            $teacher->save();
+            $result['status']=true;
+            $result['id']=$teacher->id;
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
@@ -68,7 +56,7 @@ class LoginController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,7 +67,7 @@ class LoginController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -90,8 +78,8 @@ class LoginController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -102,7 +90,7 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
