@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Clas;
+use App\Grade;
 use Illuminate\Http\Request;
 
-class ClasController extends Controller
+class GradeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +14,7 @@ class ClasController extends Controller
      */
     public function index()
     {
-        $result['status'] = true;
-        try {
-            $clases = Clas::all();
-            $result['data'] = $clases;
-        } catch (\Exception $exception) {
-            $result = array(
-                "status" => false,
-                "message" => $exception->getMessage()
-            );
-        } finally {
-            return response()->json($result);
-        }
+        //
     }
 
     /**
@@ -48,9 +37,11 @@ class ClasController extends Controller
     {
         $result['status'] = true;
         try {
-            $clas = new Clas();
-            $clas->name = $request->name;
-            $clas->save();
+            $grade = new Grade();
+            $grade->student_id = $request->student_id;
+            $grade->course_id = $request->course_id;
+            $grade->score = $request->score;
+            $grade->save();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
@@ -92,19 +83,7 @@ class ClasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $result['status'] = true;
-        try {
-            $clas = Clas::find($id);
-            $clas->name = $request->name;
-            $clas->save();
-        } catch (\Exception $exception) {
-            $result = array(
-                "status" => false,
-                "message" => $exception->getMessage()
-            );
-        } finally {
-            return response()->json($result);
-        }
+        //
     }
 
     /**
