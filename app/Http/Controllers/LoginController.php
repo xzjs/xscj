@@ -39,11 +39,11 @@ class LoginController extends Controller
         try {
             $object = null;
             switch ($request['type']) {
-                case "student":
+                case 0:
                     break;
-                case "teacher":
+                case 1:
                     break;
-                case "admin":
+                case 2:
                     $object = Admin::findOrFail($request['id']);
                     break;
                 default:
