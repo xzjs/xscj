@@ -14,7 +14,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $result['status'] = true;
+        try {
+            $result['data'] = Student::select('id','name')->get();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
@@ -37,12 +47,12 @@ class StudentController extends Controller
     {
         $result = array();
         try {
-            $student=new Student;
-            $student->name=$request->name;
-            $student->pwd=md5('student');
+            $student = new Student;
+            $student->name = $request->name;
+            $student->pwd = md5('student');
             $student->save();
-            $result['status']=true;
-            $result['id']=$student->id;
+            $result['status'] = true;
+            $result['id'] = $student->id;
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,

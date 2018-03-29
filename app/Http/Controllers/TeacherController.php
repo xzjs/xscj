@@ -14,7 +14,17 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        $result['status'] = true;
+        try {
+            $result['data'] = Teacher::select('id','name')->get();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
