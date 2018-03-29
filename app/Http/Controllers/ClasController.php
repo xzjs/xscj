@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Student;
+use App\Clas;
 use Illuminate\Http\Request;
 
-class StudentController extends Controller
+class ClasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $result['status'] = true;
-        try {
-            $result['data'] = Student::select('id', 'name')->get();
-        } catch (\Exception $exception) {
-            $result = array(
-                "status" => false,
-                "message" => $exception->getMessage()
-            );
-        } finally {
-            return response()->json($result);
-        }
+        //
     }
 
     /**
@@ -47,11 +37,9 @@ class StudentController extends Controller
     {
         $result['status'] = true;
         try {
-            $student = new Student;
-            $student->name = $request->name;
-            $student->clas_id=$request->clas_id;
-            $student->pwd = md5('student');
-            $student->save();
+            $clas = new Clas();
+            $clas->name = $request->name;
+            $clas->save();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
@@ -104,16 +92,6 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        $result['status'] = true;
-        try {
-            Student::destroy($id);
-        } catch (\Exception $exception) {
-            $result = array(
-                "status" => false,
-                "message" => $exception->getMessage()
-            );
-        } finally {
-            return response()->json($result);
-        }
+        //
     }
 }

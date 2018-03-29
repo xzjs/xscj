@@ -19,3 +19,5 @@ Route::resource('admins', 'AdminController');
 Route::resource('login', 'LoginController');
 Route::resource('students','StudentController');
 Route::resource('teachers','TeacherController');
+Route::resource('clas','ClasController');
+Route::resource('courses','CourseController');
