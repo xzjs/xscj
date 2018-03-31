@@ -14,7 +14,17 @@ class GradeController extends Controller
      */
     public function index()
     {
-        //
+        $result['status'] = true;
+        try {
+
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
