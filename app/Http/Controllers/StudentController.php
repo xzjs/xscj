@@ -93,7 +93,20 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $student=Student::find($id);
+            $student->name=$request->name;
+            $student->clas_id=$request->clas_id;
+            $student->save();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
