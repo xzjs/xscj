@@ -16,7 +16,7 @@ class StudentController extends Controller
     {
         $result['status'] = true;
         try {
-            $result['data'] = Student::with('clas')->select('id', 'name')->get();
+            $result['data'] = Student::with('clas')->get();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
@@ -49,7 +49,7 @@ class StudentController extends Controller
         try {
             $student = new Student;
             $student->name = $request->name;
-            $student->clas_id=$request->clas_id;
+            $student->clas_id = $request->clas_id;
             $student->pwd = md5('student');
             $student->save();
         } catch (\Exception $exception) {
