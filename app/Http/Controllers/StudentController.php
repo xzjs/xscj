@@ -16,7 +16,7 @@ class StudentController extends Controller
     {
         $result['status'] = true;
         try {
-            $result['data'] = Student::select('id', 'name')->get();
+            $result['data'] = Student::with('clas')->select('id', 'name')->get();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
