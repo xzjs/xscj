@@ -93,7 +93,21 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $grade = Grade::find($id);
+            $grade->course_id = $request->course_id;
+            $grade->student_id = $request->student_id;
+            $grade->score = $request->score;
+            $grade->save();
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
