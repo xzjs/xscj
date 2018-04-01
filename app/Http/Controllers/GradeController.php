@@ -16,7 +16,7 @@ class GradeController extends Controller
     {
         $result['status'] = true;
         try {
-
+            $result['data'] = Grade::with('student', 'course')->get();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
