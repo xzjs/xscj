@@ -71,7 +71,17 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $result['data'] = Teacher::find($id);
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**

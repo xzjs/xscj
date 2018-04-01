@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Grade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class GradeController extends Controller
 {
@@ -16,7 +17,13 @@ class GradeController extends Controller
     {
         $result['status'] = true;
         try {
-            $result['data'] = Grade::with('student', 'course')->get();
+            $course_id = Input::get('course_id');
+            $temp = Grade::with('student', 'course');
+            if (isset($course_id)) {
+                $result['data'] = $temp->where('course_id', $course_id)->get();
+            } else {
+                $result['data'] = $temp->get();
+            }
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,

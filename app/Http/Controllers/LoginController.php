@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Student;
+use App\Teacher;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -40,11 +42,13 @@ class LoginController extends Controller
             $object = null;
             switch ($request['type']) {
                 case 0:
+                    $object = Student::find($request->id);
                     break;
                 case 1:
+                    $object = Teacher::find($request->id);
                     break;
                 case 2:
-                    $object = Admin::findOrFail($request['id']);
+                    $object = Admin::find($request->id);
                     break;
                 default:
                     $result['status'] = false;
@@ -96,7 +100,36 @@ class LoginController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $object = null;
+            switch ($request->type) {
+                case 0:
+                    $object = Student::find($id);
+                    break;
+                case 1:
+                    $object = Teacher::find($id);
+                    break;
+                case 2:
+                    $object = Admin::find($id);
+            }
+            if (md5($request->old_pwd) == $object->pwd) {
+                $object->pwd = md5($request->new_pwd);
+                $object->save();
+            } else {
+                $result = array(
+                    "status" => false,
+                    "message" => "原密码错误"
+                );
+            }
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 
     /**
