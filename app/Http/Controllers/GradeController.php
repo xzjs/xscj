@@ -18,12 +18,15 @@ class GradeController extends Controller
         $result['status'] = true;
         try {
             $course_id = Input::get('course_id');
+            $student_id = Input::get('student_id');
             $temp = Grade::with('student', 'course');
             if (isset($course_id)) {
-                $result['data'] = $temp->where('course_id', $course_id)->get();
-            } else {
-                $result['data'] = $temp->get();
+                $temp = $temp->where('course_id', $course_id)->get();
             }
+            if (isset($student_id)) {
+                $temp = $temp->where('student_id', $student_id);
+            }
+            $result['data'] = $temp->get();
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
