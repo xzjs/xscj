@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Clas;
+use App\Grade;
+use App\Student;
 use Illuminate\Http\Request;
 
 class ClasController extends Controller
@@ -115,6 +117,21 @@ class ClasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $student_ids = Student::where('clas_id', $id)->get(['id'])->toArray();
+            foreach ($student_ids as $student_id) {
+                Grade::where('student_id', $student_id)->delete();
+            }
+            Student::destroy($student_ids);
+            Clas::destroy($id);
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 }

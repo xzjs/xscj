@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -123,6 +124,17 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result['status'] = true;
+        try {
+            Grade::where('course_id', $id)->delete();
+            Course::destroy($id);
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 }

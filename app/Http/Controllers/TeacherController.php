@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\Grade;
 use App\Teacher;
 use Illuminate\Http\Request;
 
@@ -127,6 +129,21 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result['status'] = true;
+        try {
+            $course_ids = Course::where('teacher_id', $id)->get(['id'])->toArray();
+            foreach ($course_ids as $course_id) {
+                Grade::where('course_id', $course_id)->delete();
+            }
+            Course::destroy($course_ids);
+            Teacher::destroy($id);
+        } catch (\Exception $exception) {
+            $result = array(
+                "status" => false,
+                "message" => $exception->getMessage()
+            );
+        } finally {
+            return response()->json($result);
+        }
     }
 }

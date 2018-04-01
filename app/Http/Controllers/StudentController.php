@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Grade;
 use App\Student;
 use Illuminate\Http\Request;
 
@@ -105,9 +106,9 @@ class StudentController extends Controller
     {
         $result['status'] = true;
         try {
-            $student=Student::find($id);
-            $student->name=$request->name;
-            $student->clas_id=$request->clas_id;
+            $student = Student::find($id);
+            $student->name = $request->name;
+            $student->clas_id = $request->clas_id;
             $student->save();
         } catch (\Exception $exception) {
             $result = array(
@@ -129,6 +130,7 @@ class StudentController extends Controller
     {
         $result['status'] = true;
         try {
+            Grade::where('student_id', $id)->delete();
             Student::destroy($id);
         } catch (\Exception $exception) {
             $result = array(

@@ -128,6 +128,6 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }
