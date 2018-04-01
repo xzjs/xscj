@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class CourseController extends Controller
 {
@@ -16,8 +17,13 @@ class CourseController extends Controller
     {
         $result['status'] = true;
         try {
-            $courses = Course::with('teacher:id,name')->get();
-            $result['data'] = $courses;
+            $query = Input::get('teacher_id');
+            if (isset($query)) {
+                $result['data'] = Course::where('teacher_id', $query)->get();
+            } else {
+                $courses = Course::with('teacher:id,name')->get();
+                $result['data'] = $courses;
+            }
         } catch (\Exception $exception) {
             $result = array(
                 "status" => false,
